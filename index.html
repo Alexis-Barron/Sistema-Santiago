@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Santiago - Mango Deshidratado</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- ================= SIDEBAR ================= -->
+        <aside id="sidebar" class="w-64 bg-[#111c24] text-gray-300 flex flex-col justify-between transition-all duration-300 ease-in-out shrink-0">
+            <div>
+                <!-- Logo -->
+                <div class="p-5 flex items-center space-x-3 border-b border-gray-800">
+                    <div class="bg-amber-400 p-2 rounded-lg text-black font-bold">
+                        <i class="fa-solid fa-mango text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-white font-bold text-sm tracking-wide">SISTEMA SANTIAGO</h1>
+                        <p class="text-[10px] text-gray-400 tracking-wider">MANGO DESHIDRATADO</p>
+                    </div>
+                </div>
+
+                <!-- Menú de navegación -->
+                <nav class="mt-4 px-3 space-y-1">
+                    <a href="#" onclick="cambiarSeccion('dashboard', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg bg-[#22c55e] text-white font-medium shadow-md">
+                        <i class="fa-solid fa-chart-pie w-6"></i> Dashboard
+                    </a>
+                    <a href="#" onclick="cambiarSeccion('recepcion', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-boxes-stacked w-6"></i> Recepción
+                    </a>
+                    <a href="#" onclick="cambiarSeccion('lavado1', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-droplet w-6"></i> Lavado 1
+                    </a>
+                    <a href="#" onclick="cambiarSeccion('maduracion', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-temperature-half w-6"></i> Maduración
+                    </a>
+                    <a href="#" onclick="cambiarSeccion('lavado2', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-water w-6"></i> Lavado 2
+                    </a>
+                    <a href="#" onclick="cambiarSeccion('inventarios', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-warehouse w-6"></i> Inventarios
+                    </a>
+                    <a href="#" onclick="cambiarSeccion('trazabilidad', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-route w-6"></i> Trazabilidad
+                    </a>
+                    <a href="#" onclick="cambiarSeccion('reportes', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-file-lines w-6"></i> Reportes
+                    </a>
+                    <a href="#" onclick="cambiarSeccion('usuarios', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-users w-6"></i> Usuarios
+                    </a>
+                    <a href="#" onclick="cambiarSeccion('configuracion', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-gear w-6"></i> Configuración
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Cerrar sesión -->
+            <div class="p-4 border-t border-gray-800">
+                <button onclick="cerrarSesion()" class="w-full flex items-center px-4 py-2 text-sm text-red-500 hover:bg-gray-800 rounded-lg transition-colors">
+                    <i class="fa-solid fa-right-from-bracket w-6"></i> Cerrar sesión
+                </button>
+            </div>
+        </aside>
+
+        <!-- ================= CONTENIDO PRINCIPAL ================= -->
+        <div class="flex-1 flex flex-col overflow-y-auto">
+
+            <!-- Navbar superior -->
+            <header class="bg-white shadow-xs h-16 flex items-center justify-between px-6 z-10 sticky top-0">
+                <div class="flex items-center space-x-4">
+                    <!-- Botón Hamburguesa -->
+                    <button id="menu-btn" class="text-gray-600 focus:outline-none hover:text-green-600 transition-colors">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                    <h2 id="navbar-title" class="text-green-800 font-bold text-lg tracking-wide">DASHBOARD</h2>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="mostrarNotificaciones()" class="text-gray-500 hover:text-gray-700 relative">
+                        <i class="fa-regular fa-bell text-lg"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-2 h-2"></span>
+                    </button>
+                    <div class="flex items-center space-x-3 border-l pl-4 border-gray-200">
+                        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold">
+                            <i class="fa-solid fa-user text-sm"></i>
+                        </div>
+                        <div class="text-left hidden sm:block">
+                            <p class="text-xs font-bold text-gray-800">Administrador</p>
+                            <p class="text-[10px] text-gray-400">admin</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Cuerpo Dinámico -->
+            <main class="p-4 sm:p-6 space-y-6">
+                
+                <!-- ================= VISTA: DASHBOARD ================= -->
+                <section id="view-dashboard" class="view-section space-y-6">
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 sm:p-12 text-center flex flex-col items-center justify-center min-h-[450px]">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-amber-50 border-4 border-amber-100 flex items-center justify-center text-amber-500 mb-6 shadow-inner">
+                            <i class="fa-solid fa-mango text-5xl sm:text-6xl"></i>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-800 tracking-tight mb-3">
+                            Bienvenido al Sistema Santiago
+                        </h3>
+                        <p class="text-gray-500 text-sm sm:text-base max-w-md mx-auto mb-8">
+                            Plataforma integral para el control de trazabilidad y procesamiento de mango deshidratado. Selecciona una opción del menú para comenzar.
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button onclick="cambiarSeccionPorId('recepcion')" class="bg-[#16a34a] hover:bg-green-700 text-white text-xs sm:text-sm font-semibold px-6 py-3 rounded-xl shadow-md transition-all flex items-center space-x-2">
+                                <i class="fa-solid fa-boxes-stacked"></i> <span>Ir a Recepción</span>
+                            </button>
+                            <button onclick="cambiarSeccionPorId('inventarios')" class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 text-xs sm:text-sm font-semibold px-6 py-3 rounded-xl shadow-xs transition-all flex items-center space-x-2">
+                                <i class="fa-solid fa-warehouse"></i> <span>Ver Inventarios</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= VISTA: RECEPCIÓN ================= -->
+                <section id="view-recepcion" class="view-section space-y-6 hidden">
+                    <h3 class="text-gray-800 font-bold text-base">Registro de Cargamento</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-xl shadow-xs border border-gray-200">
+                            <h4 class="text-xs font-bold text-gray-700 mb-4 uppercase tracking-wider">Información del Cargamento</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Proveedor</label>
+                                    <select id="select-proveedor" class="w-full text-xs border border-gray-300 rounded-lg p-2 bg-white focus:ring-1 focus:ring-green-500">
+                                        <option>Productor de Mango S.A. de C.V.</option>
+                                        <option>Agroexportadora del Sur S.A.</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Fecha de recepción</label>
+                                    <div class="relative">
+                                        <input type="text" id="input-fecha" value="20/05/2024" class="w-full text-xs border border-gray-300 rounded-lg p-2 pr-8 bg-white">
+                                        <i class="fa-regular fa-calendar absolute right-2.5 top-2.5 text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">No. de Cargamento</label>
+                                    <input type="text" id="input-cargamento" value="CARG-2024-0007" class="w-full text-xs border border-gray-300 rounded-lg p-2 bg-gray-50 text-gray-600" readonly>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-xs text-gray-500 mb-1">Observaciones</label>
+                                <input type="text" id="input-obs" placeholder="Ingrese observaciones opcionales..." class="w-full text-xs border border-gray-300 rounded-lg p-2 bg-white">
+                            </div>
+                            <hr class="border-gray-100 mb-4">
+                            <h4 class="text-xs font-bold text-gray-700 mb-4 uppercase tracking-wider">Detalle de la Carga</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Total de tarimas / cajas:</label>
+                                    <input type="number" id="input-cajas" value="6" class="w-full text-xs border border-gray-300 rounded-lg p-2 mt-1 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Tipo de tarima:</label>
+                                    <select id="select-tarima" class="w-full text-xs border border-gray-300 rounded-lg p-2 sm:mt-5 bg-white">
+                                        <option>Estándar 120x80</option>
+                                        <option>Grande 120x100</option>
+                                    </select>
+                                </div>
+                                <div></div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Peso Bruto (kg):</label>
+                                    <input type="number" id="input-bruto" value="1600.00" class="w-full text-xs border border-gray-300 rounded-lg p-2 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Tara (kg):</label>
+                                    <input type="number" id="input-tara" value="100.00" class="w-full text-xs border border-gray-300 rounded-lg p-2 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Peso Neto (kg):</label>
+                                    <input type="text" id="input-neto" value="1500.00" class="w-full text-xs border border-gray-300 rounded-lg p-2 bg-gray-50 font-bold text-gray-700" readonly>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button id="btn-generar" class="w-full sm:w-auto bg-[#16a34a] hover:bg-green-700 text-white text-xs font-semibold px-5 py-2.5 rounded-lg shadow-sm transition-colors flex items-center justify-center space-x-2">
+                                    <i class="fa-solid fa-check"></i> <span>Generar Carga</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Resumen -->
+                        <div class="bg-white p-5 sm:p-6 rounded-xl shadow-xs border border-gray-200 flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-700 mb-4 uppercase tracking-wider">Resumen del Cargamento</h4>
+                                <div class="space-y-2.5 text-xs text-gray-600 mb-6">
+                                    <p><strong class="text-gray-700">Proveedor:</strong> <span id="resumen-proveedor">Productor de Mango S.A. de C.V.</span></p>
+                                    <p><strong class="text-gray-700">No. de Cargamento:</strong> <span id="resumen-cargamento">CARG-2024-0007</span></p>
+                                    <p><strong class="text-gray-700">Fecha de recepción:</strong> <span id="resumen-fecha">20/05/2024</span></p>
+                                    <p><strong class="text-gray-700">Lote generado:</strong> <span id="resumen-lote">LOT-2024-0007</span></p>
+                                    <div class="flex items-center space-x-2">
+                                        <strong class="text-gray-700">Venta total de cajas:</strong> 
+                                        <span id="resumen-cajas" class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[11px]">6</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-center items-center py-4">
+                                <div class="w-32 h-32 rounded-full bg-emerald-50 border-4 border-emerald-100 flex items-center justify-center text-emerald-600">
+                                    <i class="fa-solid fa-box-open text-5xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Cargas -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 bg-white rounded-xl shadow-xs border border-gray-200 overflow-hidden">
+                            <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+                                <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Cargas Generadas</h4>
+                                <span id="contador-cargas" class="text-[11px] text-gray-400 font-medium">6 registros</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse text-xs min-w-[700px]">
+                                    <thead>
+                                        <tr class="bg-gray-50 text-gray-500 border-b border-gray-200">
+                                            <th class="p-3 font-semibold">No. Carga</th>
+                                            <th class="p-3 font-semibold">Lote</th>
+                                            <th class="p-3 font-semibold">Fecha</th>
+                                            <th class="p-3 font-semibold">Tarima</th>
+                                            <th class="p-3 font-semibold">Peso Neto (kg)</th>
+                                            <th class="p-3 font-semibold">Estado</th>
+                                            <th class="p-3 font-semibold">Ubicación</th>
+                                            <th class="p-3 font-semibold text-center">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabla-cargas-body" class="divide-y divide-gray-100 text-gray-600"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="bg-white p-5 sm:p-6 rounded-xl shadow-xs border border-gray-200">
+                                <h4 class="text-xs font-bold text-gray-700 mb-4 uppercase tracking-wider">Acciones</h4>
+                                <div class="space-y-3">
+                                    <button onclick="descargarExcel()" class="w-full bg-[#16a34a] hover:bg-green-700 text-white text-xs font-semibold py-2.5 px-4 rounded-lg flex items-center justify-center space-x-2 transition-colors">
+                                        <i class="fa-solid fa-file-excel"></i> <span>Descargar Inventario (Excel)</span>
+                                    </button>
+                                    <button onclick="imprimirPapeletas()" class="w-full bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 text-xs font-semibold py-2.5 px-4 rounded-lg flex items-center justify-center space-x-2 transition-colors">
+                                        <i class="fa-solid fa-print"></i> <span>Imprimir Papeletas</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= VISTA: INVENTARIOS ================= -->
+                <section id="view-inventarios" class="view-section space-y-6 hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h3 class="text-gray-800 font-bold text-lg">Inventario General de Planta</h3>
+                            <p class="text-xs text-gray-500">Control detallado de lotes, tarimas y pesos actuales en almacén y procesos.</p>
+                        </div>
+                        <button onclick="descargarExcel()" class="bg-[#16a34a] hover:bg-green-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-sm transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-download"></i> <span>Descargar Inventario Completo (.CSV)</span>
+                        </button>
+                    </div>
+
+                    <!-- Tarjetas de Estadísticas de Inventario -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center space-x-4">
+                            <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl text-xl">
+                                <i class="fa-solid fa-boxes-stacked"></i>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-gray-400 font-medium uppercase">Total de Cargas</p>
+                                <h4 id="stat-total-cargas" class="text-lg font-bold text-gray-800">0</h4>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center space-x-4">
+                            <div class="p-3 bg-blue-50 text-blue-600 rounded-xl text-xl">
+                                <i class="fa-solid fa-weight-scale"></i>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-gray-400 font-medium uppercase">Peso Neto Acumulado</p>
+                                <h4 id="stat-peso-neto" class="text-lg font-bold text-gray-800">0 kg</h4>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center space-x-4">
+                            <div class="p-3 bg-amber-50 text-amber-600 rounded-xl text-xl">
+                                <i class="fa-solid fa-truck-ramp-box"></i>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-gray-400 font-medium uppercase">En Recepción</p>
+                                <h4 id="stat-recepcion" class="text-lg font-bold text-gray-800">0</h4>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center space-x-4">
+                            <div class="p-3 bg-purple-50 text-purple-600 rounded-xl text-xl">
+                                <i class="fa-solid fa-rotate"></i>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-gray-400 font-medium uppercase">En Proceso</p>
+                                <h4 id="stat-proceso" class="text-lg font-bold text-gray-800">0</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Inventario Completo -->
+                    <div class="bg-white rounded-xl shadow-xs border border-gray-200 overflow-hidden">
+                        <div class="p-4 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-3">
+                            <div class="flex items-center space-x-2 w-full sm:w-auto">
+                                <input type="text" id="buscar-inventario" oninput="filtrarInventario()" placeholder="Buscar por Lote, ID o Proveedor..." class="text-xs border border-gray-300 rounded-lg px-3 py-2 w-full sm:w-64 focus:outline-none focus:ring-1 focus:ring-green-500">
+                            </div>
+                            <span id="contador-inventario" class="text-xs text-gray-400 font-medium">Mostrando registros</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs min-w-[800px]">
+                                <thead>
+                                    <tr class="bg-gray-50 text-gray-500 border-b border-gray-200">
+                                        <th class="p-3 font-semibold">ID Carga</th>
+                                        <th class="p-3 font-semibold">Lote</th>
+                                        <th class="p-3 font-semibold">Proveedor</th>
+                                        <th class="p-3 font-semibold">Fecha</th>
+                                        <th class="p-3 font-semibold">Tipo Tarima</th>
+                                        <th class="p-3 font-semibold">Peso Neto (kg)</th>
+                                        <th class="p-3 font-semibold">Estado Actual</th>
+                                        <th class="p-3 font-semibold">Ubicación</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-inventarios-body" class="divide-y divide-gray-100 text-gray-600">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= VISTAS GENÉRICAS ================= -->
+                <section id="view-placeholder" class="view-section space-y-6 hidden">
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-12 text-center">
+                        <div class="w-20 h-20 mx-auto rounded-full bg-green-50 flex items-center justify-center text-green-600 mb-4 text-3xl">
+                            <i class="fa-solid fa-hammer"></i>
+                        </div>
+                        <h3 id="placeholder-title" class="text-xl font-bold text-gray-800 mb-2">Módulo en Desarrollo</h3>
+                        <p class="text-gray-500 text-sm">Esta sección de Sistema Santiago estará disponible próximamente.</p>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        // Control del menú lateral Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('hidden');
+        }
+        menuBtn.addEventListener('click', toggleSidebar);
+
+        // Cambio de vistas dinámicas
+        function cambiarSeccion(seccion, elemento) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('hidden'));
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-[#22c55e]', 'text-white', 'font-medium', 'shadow-md');
+                link.classList.add('hover:bg-gray-800');
+            });
+
+            if(elemento) {
+                elemento.classList.add('bg-[#22c55e]', 'text-white', 'font-medium', 'shadow-md');
+                elemento.classList.remove('hover:bg-gray-800');
+            }
+
+            if (seccion === 'dashboard') {
+                document.getElementById('view-dashboard').classList.remove('hidden');
+                document.getElementById('navbar-title').textContent = 'DASHBOARD';
+            } else if (seccion === 'recepcion') {
+                document.getElementById('view-recepcion').classList.remove('hidden');
+                document.getElementById('navbar-title').textContent = 'RECEPCIÓN';
+            } else if (seccion === 'inventarios') {
+                document.getElementById('view-inventarios').classList.remove('hidden');
+                document.getElementById('navbar-title').textContent = 'INVENTARIOS';
+                actualizarVistaInventarios();
+            } else {
+                document.getElementById('view-placeholder').classList.remove('hidden');
+                document.getElementById('navbar-title').textContent = seccion.toUpperCase();
+                document.getElementById('placeholder-title').textContent = `Módulo: ${seccion.charAt(0).toUpperCase() + seccion.slice(1)}`;
+            }
+        }
+
+        function cambiarSeccionPorId(idSeccion) {
+            const links = document.querySelectorAll('.nav-link');
+            let targetLink = null;
+            links.forEach(link => {
+                if(link.getAttribute('onclick').includes(idSeccion)) {
+                    targetLink = link;
+                }
+            });
+            cambiarSeccion(idSeccion, targetLink);
+        }
+
+        // Base de datos general del inventario con conjunto inicial completo
+        let cargasData = [
+            { id: "CG-2024-0007-001", lote: "LOT-2024-0007", proveedor: "Productor de Mango S.A. de C.V.", fecha: "20/05/2024", tarima: "Estándar 120x80", peso: "1495.50", estado: "Recepción", ubicacion: "Área de Recepción" },
+            { id: "CG-2024-0007-002", lote: "LOT-2024-0007", proveedor: "Productor de Mango S.A. de C.V.", fecha: "20/05/2024", tarima: "Estándar 120x80", peso: "1495.50", estado: "Recepción", ubicacion: "Área de Recepción" },
+            { id: "CG-2024-0007-003", lote: "LOT-2024-0007", proveedor: "Productor de Mango S.A. de C.V.", fecha: "20/05/2024", tarima: "Estándar 120x80", peso: "1495.50", estado: "Recepción", ubicacion: "Área de Recepción" },
+            { id: "CG-2024-0007-004", lote: "LOT-2024-0007", proveedor: "Productor de Mango S.A. de C.V.", fecha: "20/05/2024", tarima: "Estándar 120x80", peso: "1495.50", estado: "Recepción", ubicacion: "Área de Recepción" },
+            { id: "CG-2024-0007-005", lote: "LOT-2024-0007", proveedor: "Productor de Mango S.A. de C.V.", fecha: "20/05/2024", tarima: "Estándar 120x80", peso: "1495.50", estado: "Lavado 1", ubicacion: "Línea de Lavado 1" },
+            { id: "CG-2024-0007-006", lote: "LOT-2024-0007", proveedor: "Productor de Mango S.A. de C.V.", fecha: "20/05/2024", tarima: "Estándar 120x80", peso: "1495.50", estado: "Lavado 1", ubicacion: "Línea de Lavado 1" },
+            { id: "CG-2024-0006-001", lote: "LOT-2024-0006", proveedor: "Agroexportadora del Sur S.A.", fecha: "19/05/2024", tarima: "Grande 120x100", peso: "1820.00", estado: "Maduración", ubicacion: "Cuarto de Maduración" },
+            { id: "CG-2024-0006-002", lote: "LOT-2024-0006", proveedor: "Agroexportadora del Sur S.A.", fecha: "19/05/2024", tarima: "Grande 120x100", peso: "1790.00", estado: "Maduración", ubicacion: "Cuarto de Maduración" }
+        ];
+
+        // Lógica de cálculo automático de Peso Neto en Recepción
+        const inputBruto = document.getElementById('input-bruto');
+        const inputTara = document.getElementById('input-tara');
+        const inputNeto = document.getElementById('input-neto');
+
+        function calcularPesoNeto() {
+            const bruto = parseFloat(inputBruto.value) || 0;
+            const tara = parseFloat(inputTara.value) || 0;
+            const neto = bruto - tara;
+            inputNeto.value = neto > 0 ? neto.toFixed(2) : '0.00';
+        }
+        inputBruto.addEventListener('input', calcularPesoNeto);
+        inputTara.addEventListener('input', calcularPesoNeto);
+
+        // Sincronización en tiempo real del formulario con el resumen
+        const selectProveedor = document.getElementById('select-proveedor');
+        const inputFecha = document.getElementById('input-fecha');
+        const inputCajas = document.getElementById('input-cajas');
+        
+        const resumenProveedor = document.getElementById('resumen-proveedor');
+        const resumenFecha = document.getElementById('resumen-fecha');
+        const resumenCajas = document.getElementById('resumen-cajas');
+
+        selectProveedor.addEventListener('change', (e) => resumenProveedor.textContent = e.target.value);
+        inputFecha.addEventListener('input', (e) => resumenFecha.textContent = e.target.value);
+        inputCajas.addEventListener('input', (e) => resumenCajas.textContent = e.target.value);
+
+        // Renderizado de tabla en sección Recepción
+        const tablaBody = document.getElementById('tabla-cargas-body');
+        const selectTarima = document.getElementById('select-tarima');
+
+        function renderTablaRecepcion() {
+            tablaBody.innerHTML = '';
+            // Mostramos solo las de recepción para el ejemplo o todas
+            cargasData.forEach((carga) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3 font-medium">${carga.id}</td>
+                    <td class="p-3">${carga.lote}</td>
+                    <td class="p-3">${carga.fecha}</td>
+                    <td class="p-3">${carga.tarima}</td>
+                    <td class="p-3 font-semibold">${carga.peso} kg</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-bold">${carga.estado}</span></td>
+                    <td class="p-3">${carga.ubicacion}</td>
+                    <td class="p-3 text-center space-x-2">
+                        <button onclick="alert('Imprimiendo ${carga.id}')" class="text-green-600 hover:text-green-800"><i class="fa-solid fa-print"></i></button>
+                        <button onclick="alert('Viendo detalle de ${carga.id}')" class="text-blue-600 hover:text-blue-800"><i class="fa-regular fa-eye"></i></button>
+                    </td>
+                `;
+                tablaBody.appendChild(tr);
+            });
+            document.getElementById('contador-cargas').textContent = `${cargasData.length} registros`;
+        }
+        renderTablaRecepcion();
+
+        // Generar nueva carga desde Recepción
+        document.getElementById('btn-generar').addEventListener('click', () => {
+            const pesoNetoVal = inputNeto.value;
+            const nuevoId = `CG-2024-0007-00${cargasData.length + 1}`;
+            cargasData.unshift({
+                id: nuevoId,
+                lote: "LOT-2024-0007",
+                proveedor: selectProveedor.value,
+                fecha: inputFecha.value,
+                tarima: selectTarima.value,
+                peso: pesoNetoVal,
+                estado: "Recepción",
+                ubicacion: "Área de Recepción"
+            });
+            renderTablaRecepcion();
+            alert(`¡Carga ${nuevoId} generada con éxito y añadida al inventario!`);
+        });
+
+        // ================= FUNCIONES DE INVENTARIOS =================
+        function actualizarVistaInventarios(datosFiltrados = cargasData) {
+            const tbody = document.getElementById('tabla-inventarios-body');
+            tbody.innerHTML = '';
+
+            let pesoTotal = 0;
+            let enRecepcion = 0;
+            let enProceso = 0;
+
+            datosFiltrados.forEach(item => {
+                pesoTotal += parseFloat(item.peso) || 0;
+                if(item.estado === "Recepción") enRecepcion++;
+                else enProceso++;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-gray-800">${item.id}</td>
+                    <td class="p-3 text-green-700 font-medium">${item.lote}</td>
+                    <td class="p-3">${item.proveedor}</td>
+                    <td class="p-3">${item.fecha}</td>
+                    <td class="p-3">${item.tarima}</td>
+                    <td class="p-3 font-semibold text-gray-700">${item.peso} kg</td>
+                    <td class="p-3">
+                        <span class="px-2 py-1 rounded-full text-[10px] font-bold ${item.estado === 'Recepción' ? 'bg-amber-100 text-amber-800' : 'bg-purple-100 text-purple-800'}">
+                            ${item.estado}
+                        </span>
+                    </td>
+                    <td class="p-3 text-gray-500">${item.ubicacion}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Actualizar tarjetas de estadísticas
+            document.getElementById('stat-total-cargas').textContent = cargasData.length;
+            document.getElementById('stat-peso-neto').textContent = pesoTotal.toLocaleString('es-MX', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' kg';
+            document.getElementById('stat-recepcion').textContent = cargasData.filter(i => i.estado === "Recepción").length;
+            document.getElementById('stat-proceso').textContent = cargasData.filter(i => i.estado !== "Recepción").length;
+            document.getElementById('contador-inventario').textContent = `Mostrando ${datosFiltrados.length} de ${cargasData.length} registros`;
+        }
+
+        function filtrarInventario() {
+            const query = document.getElementById('buscar-inventario').value.toLowerCase();
+            const filtrados = cargasData.filter(item => 
+                item.id.toLowerCase().includes(query) || 
+                item.lote.toLowerCase().includes(query) || 
+                item.proveedor.toLowerCase().includes(query)
+            );
+            actualizarVistaInventarios(filtrados);
+        }
+
+        // Función para descargar el inventario completo en archivo CSV (Excel)
+        function descargarExcel() {
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "ID Carga,Lote,Proveedor,Fecha,Tipo Tarima,Peso Neto (kg),Estado Actual,Ubicacion\n";
+
+            cargasData.forEach(row => {
+                csvContent += `"${row.id}","${row.lote}","${row.proveedor}","${row.fecha}","${row.tarima}","${row.peso}","${row.estado}","${row.ubicacion}"\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Inventario_SistemaSantiago_Mango.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function imprimirPapeletas() { alert('Imprimiendo papeletas de carga...'); }
+        function cerrarSesion() { if(confirm('¿Desea cerrar sesión?')) alert('Sesión finalizada.'); }
+        function mostrarNotificaciones() { alert('No hay notificaciones nuevas.'); }
+    </script>
+</body>
+</html>
