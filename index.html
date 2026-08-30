@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Santiago - Mango Deshidratado</title>
+    <!-- Favicon con Logo de Mango -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><path fill=%22%23f59e0b%22 d=%22M205 34.8c-11.5 5.7-19 17.6-19 30.8V96c0 17.7 14.3 32 32 32h32c17.7 0 32-14.3 32-32V65.6c0-13.2-7.5-25.1-19-30.8s-25.5-4.5-35.8 3L224 50.8l-1.2-1.3c-10.3-7.5-24.3-8.7-35.8-3zM288 176v64c0 17.7-14.3 32-32 32h-64c-17.7 0-32-14.3-32-32v-64c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64zm-32 112c44.2 0 83.2 21.5 107.4 54.4C391.2 376.1 416 416.7 416 464c0 26.5-21.5 48-48 48H144c-26.5 0-48-21.5-48-48 0-47.3 24.8-87.9 62.6-121.6C192.8 309.5 231.8 288 276 288z%22/></svg>">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome para iconos -->
@@ -27,7 +29,7 @@
                     </div>
                 </div>
 
-                <!-- Menú de navegación (Sin Lavado 2) -->
+                <!-- Menú de navegación -->
                 <nav class="mt-4 px-3 space-y-1">
                     <a href="#" onclick="cambiarSeccion('dashboard', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg bg-[#22c55e] text-white font-medium shadow-md">
                         <i class="fa-solid fa-chart-pie w-6"></i> Dashboard
@@ -40,6 +42,9 @@
                     </a>
                     <a href="#" onclick="cambiarSeccion('maduracion', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
                         <i class="fa-solid fa-temperature-half w-6"></i> Maduración
+                    </a>
+                    <a href="#" onclick="cambiarSeccion('produccion_diaria', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-calendar-day w-6"></i> Producción Diaria
                     </a>
                     <a href="#" onclick="cambiarSeccion('inventarios', this)" class="nav-link flex items-center px-4 py-2.5 text-sm rounded-lg hover:bg-gray-800 transition-colors">
                         <i class="fa-solid fa-warehouse w-6"></i> Inventarios
@@ -107,17 +112,9 @@
                         <h3 class="text-2xl sm:text-3xl font-extrabold text-gray-800 tracking-tight mb-3">
                             Bienvenido al Sistema Santiago
                         </h3>
-                        <p class="text-gray-500 text-sm sm:text-base max-w-md mx-auto mb-8">
-                            Plataforma integral para el control de trazabilidad y procesamiento de mango deshidratado. Selecciona una opción del menú para comenzar.
+                        <p class="text-gray-500 text-sm sm:text-base max-w-md mx-auto">
+                            Plataforma integral para el control de trazabilidad y procesamiento de mango deshidratado. Selecciona una opción del menú lateral para comenzar.
                         </p>
-                        <div class="flex flex-wrap justify-center gap-3">
-                            <button onclick="cambiarSeccionPorId('recepcion')" class="bg-[#16a34a] hover:bg-green-700 text-white text-xs sm:text-sm font-semibold px-6 py-3 rounded-xl shadow-md transition-all flex items-center space-x-2 cursor-pointer">
-                                <i class="fa-solid fa-boxes-stacked"></i> <span>Ir a Recepción</span>
-                            </button>
-                            <button onclick="cambiarSeccionPorId('inventarios')" class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 text-xs sm:text-sm font-semibold px-6 py-3 rounded-xl shadow-xs transition-all flex items-center space-x-2 cursor-pointer">
-                                <i class="fa-solid fa-warehouse"></i> <span>Ver Inventarios</span>
-                            </button>
-                        </div>
                     </div>
                 </section>
 
@@ -138,13 +135,13 @@
                                 <div>
                                     <label class="block text-xs text-gray-500 mb-1">Fecha de recepción</label>
                                     <div class="relative">
-                                        <input type="text" id="input-fecha" value="20/05/2024" class="w-full text-xs border border-gray-300 rounded-lg p-2 pr-8 bg-white">
+                                        <input type="text" id="input-fecha" value="30/08/2025" class="w-full text-xs border border-gray-300 rounded-lg p-2 pr-8 bg-white">
                                         <i class="fa-regular fa-calendar absolute right-2.5 top-2.5 text-gray-400"></i>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-xs text-gray-500 mb-1">No. de Cargamento</label>
-                                    <input type="text" id="input-cargamento" value="CARG-2024-0007" class="w-full text-xs border border-gray-300 rounded-lg p-2 bg-gray-50 text-gray-600" readonly>
+                                    <input type="text" id="input-cargamento" value="CARG-2025-0007" class="w-full text-xs border border-gray-300 rounded-lg p-2 bg-gray-50 text-gray-600" readonly>
                                 </div>
                             </div>
                             <div class="mb-6">
@@ -194,9 +191,9 @@
                                 <h4 class="text-xs font-bold text-gray-700 mb-4 uppercase tracking-wider">Resumen del Cargamento</h4>
                                 <div class="space-y-2.5 text-xs text-gray-600 mb-6">
                                     <p><strong class="text-gray-700">Proveedor:</strong> <span id="resumen-proveedor">Productor de Mango S.A. de C.V.</span></p>
-                                    <p><strong class="text-gray-700">No. de Cargamento:</strong> <span id="resumen-cargamento">CARG-2024-0007</span></p>
-                                    <p><strong class="text-gray-700">Fecha de recepción:</strong> <span id="resumen-fecha">20/05/2024</span></p>
-                                    <p><strong class="text-gray-700">Lote generado:</strong> <span id="resumen-lote">LOT-2024-0007</span></p>
+                                    <p><strong class="text-gray-700">No. de Cargamento:</strong> <span id="resumen-cargamento">CARG-2025-0007</span></p>
+                                    <p><strong class="text-gray-700">Fecha de recepción:</strong> <span id="resumen-fecha">30/08/2025</span></p>
+                                    <p><strong class="text-gray-700">Lote generado:</strong> <span id="resumen-lote">LOT-2025-0007</span></p>
                                     <div class="flex items-center space-x-2">
                                         <strong class="text-gray-700">Venta total de cajas:</strong> 
                                         <span id="resumen-cajas" class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[11px]">6</span>
@@ -268,8 +265,8 @@
                             <div>
                                 <label class="block text-xs text-gray-500 mb-1">Lote a Lavar</label>
                                 <select id="l1-select-lote" class="w-full text-xs border border-gray-300 rounded-lg p-2 bg-white">
-                                    <option value="LOT-2024-0007">LOT-2024-0007 (Productor de Mango)</option>
-                                    <option value="LOT-2024-0006">LOT-2024-0006 (Agroexportadora)</option>
+                                    <option value="LOT-2025-0007">LOT-2025-0007 (Productor de Mango)</option>
+                                    <option value="LOT-2025-0006">LOT-2025-0006 (Agroexportadora)</option>
                                 </select>
                             </div>
                             <div>
@@ -372,6 +369,33 @@
                     </div>
                 </section>
 
+                <!-- ================= VISTA: PRODUCCIÓN DIARIA ================= -->
+                <section id="view-produccion_diaria" class="view-section space-y-6 hidden">
+                    <div class="bg-white p-6 rounded-xl shadow-xs border border-gray-200 space-y-4">
+                        <h3 class="text-gray-800 font-bold text-base">Consulta de Producción Diaria</h3>
+                        <p class="text-xs text-gray-500">Selecciona la fecha para consultar el volumen procesado por área y variedad.</p>
+                        <div class="flex flex-wrap items-center gap-3 max-w-lg">
+                            <input type="text" id="input-prod-fecha" value="30/08/2025" placeholder="DD/MM/AAAA" class="text-xs border border-gray-300 rounded-lg px-3 py-2.5 w-44 focus:outline-none focus:ring-1 focus:ring-green-500">
+                            <button onclick="buscarProduccionDiaria()" class="bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-5 py-2.5 rounded-lg cursor-pointer flex items-center space-x-2">
+                                <i class="fa-solid fa-magnifying-glass"></i> <span>Buscar</span>
+                            </button>
+                            <button onclick="descargarExcelProduccionDiaria()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-5 py-2.5 rounded-lg cursor-pointer flex items-center space-x-2">
+                                <i class="fa-solid fa-file-excel"></i> <span>Descargar Excel</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Resultados de Producción Diaria en Tarjetas con el Diseño Solicitado -->
+                    <div class="space-y-4">
+                        <h4 id="titulo-prod-resultado" class="text-xs font-bold text-gray-700 uppercase tracking-wider">Resultados de Producción para el 30/08/2025</h4>
+                        
+                        <!-- Contenedor de Tarjetas de Producción -->
+                        <div id="grid-produccion-tarjetas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <!-- Se llena dinámicamente con JavaScript -->
+                        </div>
+                    </div>
+                </section>
+
                 <!-- ================= VISTA: INVENTARIOS ================= -->
                 <section id="view-inventarios" class="view-section space-y-6 hidden">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -384,8 +408,8 @@
                         </button>
                     </div>
 
-                    <!-- Tarjetas de Estadísticas de Inventario -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Tarjetas de Estadísticas de Inventario (Actualizadas a 2 columnas) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center space-x-4">
                             <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl text-xl">
                                 <i class="fa-solid fa-boxes-stacked"></i>
@@ -404,30 +428,20 @@
                                 <h4 id="stat-peso-neto" class="text-lg font-bold text-gray-800">0 kg</h4>
                             </div>
                         </div>
-                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center space-x-4">
-                            <div class="p-3 bg-amber-50 text-amber-600 rounded-xl text-xl">
-                                <i class="fa-solid fa-truck-ramp-box"></i>
-                            </div>
-                            <div>
-                                <p class="text-[11px] text-gray-400 font-medium uppercase">En Recepción / L1</p>
-                                <h4 id="stat-recepcion" class="text-lg font-bold text-gray-800">0</h4>
-                            </div>
-                        </div>
-                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center space-x-4">
-                            <div class="p-3 bg-purple-50 text-purple-600 rounded-xl text-xl">
-                                <i class="fa-solid fa-rotate"></i>
-                            </div>
-                            <div>
-                                <p class="text-[11px] text-gray-400 font-medium uppercase">En Proceso</p>
-                                <h4 id="stat-proceso" class="text-lg font-bold text-gray-800">0</h4>
-                            </div>
-                        </div>
                     </div>
 
-                    <!-- Tabla de Inventario Completo -->
+                    <!-- Tabla de Inventario Completo con Select de Área -->
                     <div class="bg-white rounded-xl shadow-xs border border-gray-200 overflow-hidden">
                         <div class="p-4 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-3">
-                            <div class="flex items-center space-x-2 w-full sm:w-auto">
+                            <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                                <!-- Select de Selección de Área -->
+                                <select id="select-area-inventario" onchange="filtrarInventario()" class="text-xs border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-500 font-medium text-gray-700">
+                                    <option value="todos">Todas las Áreas</option>
+                                    <option value="Recepción">Recepción</option>
+                                    <option value="Maduración">Maduración</option>
+                                    <option value="Despegue de tiras">Despegue de tiras</option>
+                                    <option value="Pallets">Pallets</option>
+                                </select>
                                 <input type="text" id="buscar-inventario" oninput="filtrarInventario()" placeholder="Buscar por Lote o Variedad..." class="text-xs border border-gray-300 rounded-lg px-3 py-2 w-full sm:w-64 focus:outline-none focus:ring-1 focus:ring-green-500">
                             </div>
                             <span id="contador-inventario" class="text-xs text-gray-400 font-medium">Mostrando registros</span>
@@ -441,7 +455,7 @@
                                         <th class="p-3 font-semibold">Variedad</th>
                                         <th class="p-3 font-semibold">Maduración</th>
                                         <th class="p-3 font-semibold">Peso Neto (kg)</th>
-                                        <th class="p-3 font-semibold">Estado Actual</th>
+                                        <th class="p-3 font-semibold">Área / Estado Actual</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tabla-inventarios-body" class="divide-y divide-gray-100 text-gray-600">
@@ -457,7 +471,7 @@
                         <h3 class="text-gray-800 font-bold text-base">Rastreo de Lotes por Código</h3>
                         <p class="text-xs text-gray-500">Ingresa el número de lote para consultar su historial completo en planta.</p>
                         <div class="flex gap-2 max-w-md">
-                            <input type="text" id="input-buscar-traza" placeholder="Ej. LOT-2024-0007" class="text-xs border border-gray-300 rounded-lg px-3 py-2 flex-1 focus:outline-none focus:ring-1 focus:ring-green-500">
+                            <input type="text" id="input-buscar-traza" placeholder="Ej. LOT-2025-0007" class="text-xs border border-gray-300 rounded-lg px-3 py-2 flex-1 focus:outline-none focus:ring-1 focus:ring-green-500">
                             <button onclick="buscarTrazabilidad()" class="bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-4 py-2 rounded-lg cursor-pointer">Buscar</button>
                         </div>
                         <div id="resultado-trazabilidad" class="mt-4 pt-4 border-t border-gray-100 text-xs text-gray-600">
@@ -589,6 +603,10 @@
                 document.getElementById('view-maduracion').classList.remove('hidden');
                 document.getElementById('navbar-title').textContent = 'MADURACIÓN';
                 renderTablaMaduracion();
+            } else if (seccion === 'produccion_diaria') {
+                document.getElementById('view-produccion_diaria').classList.remove('hidden');
+                document.getElementById('navbar-title').textContent = 'PRODUCCIÓN DIARIA';
+                buscarProduccionDiaria();
             } else if (seccion === 'inventarios') {
                 document.getElementById('view-inventarios').classList.remove('hidden');
                 document.getElementById('navbar-title').textContent = 'INVENTARIOS';
@@ -607,24 +625,28 @@
             }
         }
 
-        function cambiarSeccionPorId(idSeccion) {
-            const links = document.querySelectorAll('.nav-link');
-            let targetLink = null;
-            links.forEach(link => {
-                if(link.getAttribute('onclick').includes(idSeccion)) {
-                    targetLink = link;
-                }
-            });
-            cambiarSeccion(idSeccion, targetLink);
-        }
-
-        // Base de datos general de tarimas procesadas en planta
+        // Base de datos general de tarimas con áreas adaptadas para el filtro
         let tarimasData = [
-            { id: "TARIMA-01", lote: "LOT-2024-0007", variedad: "Tommy", maduracion: "Sazón", peso: "475.00", estado: "Lavado 1" },
-            { id: "TARIMA-02", lote: "LOT-2024-0007", variedad: "Ataulfo", maduracion: "Maduro", peso: "480.00", estado: "Lavado 1" },
-            { id: "TARIMA-03", lote: "LOT-2024-0006", variedad: "Kent", maduracion: "Verde", peso: "510.00", estado: "Maduración" },
-            { id: "TARIMA-04", lote: "LOT-2024-0006", variedad: "Tommy", maduracion: "Sazón", peso: "490.00", estado: "Maduración" }
+            { id: "TARIMA-01", lote: "LOT-2025-0007", variedad: "Tommy", maduracion: "Sazón", peso: "475.00", estado: "Recepción" },
+            { id: "TARIMA-02", lote: "LOT-2025-0007", variedad: "Ataulfo", maduracion: "Maduro", peso: "480.00", estado: "Maduración" },
+            { id: "TARIMA-03", lote: "LOT-2025-0006", variedad: "Kent", maduracion: "Verde", peso: "510.00", estado: "Despegue de tiras" },
+            { id: "TARIMA-04", lote: "LOT-2025-0006", variedad: "Tommy", maduracion: "Sazón", peso: "490.00", estado: "Pallets" }
         ];
+
+        // Base de datos de producción diaria
+        let produccionPorFecha = {
+            "30/08/2025": [
+                { area: "Recepción (Kent)", cantidad: "10,000 kg", icono: "fa-boxes-stacked", colorBg: "bg-emerald-50", colorText: "text-emerald-600" },
+                { area: "Recepción (Ataulfo)", cantidad: "10,000 kg", icono: "fa-boxes-stacked", colorBg: "bg-emerald-50", colorText: "text-emerald-600" },
+                { area: "Lavado 1 (Ataulfo)", cantidad: "15,000 kg", icono: "fa-droplet", colorBg: "bg-blue-50", colorText: "text-blue-600" },
+                { area: "Lavado 1 (Kent)", cantidad: "10,000 kg", icono: "fa-droplet", colorBg: "bg-blue-50", colorText: "text-blue-600" },
+                { area: "Maduración (Kent)", cantidad: "50,000 kg", icono: "fa-temperature-half", colorBg: "bg-purple-50", colorText: "text-purple-600" },
+                { area: "Maduración (Ataulfo)", cantidad: "15,000 kg", icono: "fa-temperature-half", colorBg: "bg-purple-50", colorText: "text-purple-600" },
+                { area: "Lavado 2 (Kent)", cantidad: "50,000 kg", icono: "fa-water", colorBg: "bg-sky-50", colorText: "text-sky-600" },
+                { area: "Proceso (Pulpa Kent)", cantidad: "22,000 kg", icono: "fa-blender", colorBg: "bg-amber-50", colorText: "text-amber-600" },
+                { area: "Hornos (Deshidratado)", cantidad: "1,500 kg", icono: "fa-fire-flame-curved", colorBg: "bg-rose-50", colorText: "text-rose-600" }
+            ]
+        };
 
         // Base de datos de usuarios
         let usuariosData = [
@@ -667,21 +689,21 @@
                 variedad: variedad,
                 maduracion: maduracion,
                 peso: peso,
-                estado: "Lavado 1"
+                estado: "Recepción"
             });
 
             renderTablaLavado1();
-            alert(`¡Tarima ${tarima} registrada exitosamente en Lavado 1!`);
+            alert(`¡Tarima ${tarima} registrada exitosamente!`);
         }
 
         function renderTablaLavado1() {
             const tbody = document.getElementById('tabla-lavado1-body');
             if(!tbody) return;
             tbody.innerHTML = '';
-            const filtrados = tarimasData.filter(i => i.estado === "Lavado 1");
+            const filtrados = tarimasData.filter(i => i.estado === "Recepción");
 
             if(filtrados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-400 italic">No hay tarimas en Lavado 1.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-400 italic">No hay tarimas en esta etapa.</td></tr>`;
                 return;
             }
 
@@ -693,7 +715,7 @@
                     <td class="p-3">${item.variedad}</td>
                     <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">${item.maduracion}</span></td>
                     <td class="p-3 font-semibold">${item.peso} kg</td>
-                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-bold">En Lavado 1</span></td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-bold">Recepción</span></td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -702,7 +724,7 @@
         function avanzarLavado1AMaduracion() {
             let movidas = 0;
             tarimasData.forEach(item => {
-                if(item.estado === "Lavado 1") {
+                if(item.estado === "Recepción") {
                     item.estado = "Maduración";
                     movidas++;
                 }
@@ -711,7 +733,7 @@
                 renderTablaLavado1();
                 alert(`¡${movidas} tarima(s) enviada(s) con éxito al Cuarto de Maduración!`);
             } else {
-                alert('No hay tarimas en Lavado 1 para avanzar.');
+                alert('No hay tarimas disponibles para avanzar.');
             }
         }
 
@@ -736,6 +758,57 @@
                         <td class="p-3 font-semibold">${item.peso} kg</td>
                     </tr>`;
             });
+        }
+
+        function buscarProduccionDiaria() {
+            const fechaInput = document.getElementById('input-prod-fecha').value.trim();
+            const gridContainer = document.getElementById('grid-produccion-tarjetas');
+            const titulo = document.getElementById('titulo-prod-resultado');
+            if(!gridContainer) return;
+
+            titulo.textContent = `Resultados de Producción para el ${fechaInput}`;
+            gridContainer.innerHTML = '';
+
+            const datos = produccionPorFecha[fechaInput];
+            if(!datos || datos.length === 0) {
+                gridContainer.innerHTML = `<div class="col-span-full p-6 bg-white rounded-xl border border-gray-200 text-center text-gray-400 italic">No hay registros de producción para la fecha ${fechaInput}.</div>`;
+                return;
+            }
+
+            datos.forEach(row => {
+                gridContainer.innerHTML += `
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-xs flex items-center space-x-4">
+                        <div class="p-3 ${row.colorBg} ${row.colorText} rounded-xl text-xl flex items-center justify-center shrink-0 w-12 h-12">
+                            <i class="fa-solid ${row.icono}"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="text-[11px] text-gray-400 font-medium uppercase truncate" title="${row.area}">${row.area}</p>
+                            <h4 class="text-base font-bold text-gray-800 truncate">${row.cantidad}</h4>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function descargarExcelProduccionDiaria() {
+            const fechaInput = document.getElementById('input-prod-fecha').value.trim();
+            const datos = produccionPorFecha[fechaInput];
+            if(!datos || datos.length === 0) {
+                alert('No hay datos para exportar en esta fecha.');
+                return;
+            }
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += `Fecha: ${fechaInput}\n`;
+            csvContent += "Area o Proceso,Cantidad Kilos (kg)\n";
+            datos.forEach(row => {
+                csvContent += `"${row.area}","${row.cantidad}"\n`;
+            });
+            const link = document.createElement("a");
+            link.setAttribute("href", encodeURI(csvContent));
+            link.setAttribute("download", `Produccion_Diaria_${fechaInput.replace(/\//g, '-')}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function descargarExcelMaduracion() {
@@ -778,18 +851,23 @@
 
             document.getElementById('stat-total-cargas').textContent = tarimasData.length;
             document.getElementById('stat-peso-neto').textContent = pesoTotal.toLocaleString('es-MX', {minimumFractionDigits: 2}) + ' kg';
-            document.getElementById('stat-recepcion').textContent = tarimasData.filter(i => i.estado === "Lavado 1").length;
-            document.getElementById('stat-proceso').textContent = tarimasData.filter(i => i.estado !== "Lavado 1").length;
             document.getElementById('contador-inventario').textContent = `Mostrando ${datosFiltrados.length} de ${tarimasData.length} registros`;
         }
 
         function filtrarInventario() {
+            const areaSeleccionada = document.getElementById('select-area-inventario').value;
             const query = document.getElementById('buscar-inventario').value.toLowerCase();
-            const filtrados = tarimasData.filter(item => 
-                item.lote.toLowerCase().includes(query) || 
-                item.variedad.toLowerCase().includes(query) ||
-                item.id.toLowerCase().includes(query)
-            );
+
+            const filtrados = tarimasData.filter(item => {
+                const coincideArea = (areaSeleccionada === 'todos' || item.estado === areaSeleccionada);
+                const coincideTexto = (
+                    item.lote.toLowerCase().includes(query) || 
+                    item.variedad.toLowerCase().includes(query) ||
+                    item.id.toLowerCase().includes(query)
+                );
+                return coincideArea && coincideTexto;
+            });
+
             actualizarVistaInventarios(filtrados);
         }
 
@@ -809,7 +887,7 @@
             encontrado.forEach(el => {
                 html += `<div class="p-3 bg-gray-50 rounded border border-gray-200">
                     <p><strong>Tarima:</strong> ${el.id} | <strong>Variedad:</strong> ${el.variedad} | <strong>Maduración:</strong> ${el.maduracion}</p>
-                    <p><strong>Peso Neto:</strong> ${el.peso} kg | <strong>Etapa Actual:</strong> <span class="text-green-600 font-bold">${el.estado}</span></p>
+                    <p><strong>Peso Neto:</strong> ${el.peso} kg | <strong>Área Actual:</strong> <span class="text-green-600 font-bold">${el.estado}</span></p>
                 </div>`;
             });
             html += `</div>`;
@@ -861,7 +939,7 @@
 
         function descargarExcel() {
             let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-            csvContent += "Lote,Tarima,Variedad,Maduracion,Peso Neto (kg),Estado\n";
+            csvContent += "Lote,Tarima,Variedad,Maduracion,Peso Neto (kg),Area Actual\n";
             tarimasData.forEach(row => {
                 csvContent += `"${row.lote}","${row.id}","${row.variedad}","${row.maduracion}","${row.peso}","${row.estado}"\n`;
             });
